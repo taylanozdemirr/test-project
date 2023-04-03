@@ -1,16 +1,12 @@
 import React from 'react';
-import './App.css';
-import Header from './components/Header'
 import Inputs from './components/Inputs'
+import './App.css';
 
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <Inputs/>
-      
-      
+      <Inputs />
     </div>
   );
 }

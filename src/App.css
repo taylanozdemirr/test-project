@@ -5,3 +5,13 @@
 	padding: 3%;
 	transform: translateX(-50%);
 }
+
+.login-image {
+	background-image: url(../public/img/login.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.my-input {
+	width: 50%;
+}

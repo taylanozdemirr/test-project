@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Image } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Header from './Header'
 import '../App.css'
 
 
@@ -28,101 +29,127 @@ interface Comments {
 function HomePage() {
 
   // Post Sayısının set edildiği yer
-const [postCount,setPostCount] = useState<number>(0)
+  const [postCount, setPostCount] = useState<number>(0)
 
   // Modal görüntülenmesi için durum tanımlama
   const [show, setShow] = useState(false)
+  const [postId, setPostId] = useState(null)
   const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
 
+  const handleShow = (postId: any) => {
+    setPostId(postId)
+    setShow(true)
+  }
 
-//Post kartlarının apiden çekildiği yer
+  //Post kartlarının apiden çekildiği yer
   const [posts, setPosts] = useState<Post[]>([])
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
-    .then(data => setPosts(data))
-    .then(() => setPostCount(posts.length))
-    .catch(error => console.log(error))
+      .then(response => response.json())
+      .then(data => {
+        setPosts(data); setPostCount(data.length);
+      })
+      .catch(error => console.log(error))
   }, [])
-  
-  
+
+
   // Yorumların apiden çekildiği yer
-  const [comments,setComments] = useState<Comments[]>([])
+  const [comments, setComments] = useState<Comments[]>([])
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/comments')
-    .then(response => response.json())
-    .then(data => setComments(data))
-    .catch(error => console.log(error))
+      .then(response => response.json())
+      .then(data => setComments(data))
+      .catch(error => console.log(error))
   })
-  
+
   return (
-    <div className='container'>
-      <div className='row'>
-        <div className='text-center mb-5'>
-          <h1>Dashboard</h1>
+    <div>
+      <Header />
+      <div className='container'>
+        <div className='row'>
+          <div className='text-center mb-5'>
+            <h1>Dashboard</h1>
+          </div>
+
+        </div>
+        <div className='row'>
+          <div className="col-sm-12 col-md-3 d-none d-md-block">
+            <div className='row mx-5 my-5' style={{ height: "10rem" }}>
+              <h5>Toplam Post Sayısı</h5>
+              <div className='rounded-circle border border-2 border-warning d-flex align-items-center justify-content-center text-center mx-5' style={{ width: '100px', height: '100px' }}>
+                {postCount}
+              </div>
+            </div>
+            <div className='row mx-5 my-5' style={{ height: "10rem" }}>
+              <h5>En Çok Post Atan Kullanıcı Id</h5>
+              <div className='row'>
+                <div className='col-6'>
+                  <Image src='./img/bow.png' width={70} height={70}></Image>
+                </div>
+                <h1 className='col-6'>67</h1>
+              </div>
+
+
+            </div>
+          </div>
+          <div className="col-sm-12 col-md-9">
+            <div className="virtical-line"></div>
+            <div className="row">
+              {/* Apiden gelen verilerin kartlara dönüştüğü yer */}
+              {posts.map(post => (
+                <div className="col-sm-12 col-md-4 my-2">
+                  <div className="card shadow-lg h-100 " key={post.id}>
+                    <div className="card-header">
+                      <h5 className="card-title">{post.title}</h5>
+                    </div>
+                    <div className="card-body">
+                      <div className="row g-0">
+                        <div className="col-4">
+                          <Image src="./img/post-img.png" className="card-img-top" alt="..." width={20} height={60} />
+                        </div>
+                        <div className="col-8">
+                          <p className="card-text">{post.body}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-footer d-grid gap-2">
+                      <Button variant="primary" onClick={() => handleShow(post.id)} >Yorumları Göster </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-      </div>
-      <div className='row'>
-        <div className="col-md-3">
-          <div className='row mx-5 my-5' style={{height: "10rem"}}>
-            <h5>Toplam Post Sayısı</h5>
-            <div className='rounded-circle border border-2 border-warning d-flex align-items-center justify-content-center text-center mx-5' style={{width:'100px',height:'100px'}}>
-              {postCount}
-            </div>
-          </div>
-          <div className='row mx-5 my-5' style={{height: "10rem"}}>
-            <h5>En Çok Post Atan Kullanıcı Id</h5>
-            <div className='row'>
-              <div className='col-6'>
-                <Image src='./img/bow.png' width={70} height={70}></Image>
-              </div>
-               <h1 className='col-6'>67</h1>
-            </div>
-            
-            
-          </div>
-        </div>
-        <div className="col-md-9">
-        <div className="virtical-line"></div>
-          <div className="row">
-            {/* Apiden gelen verilerin kartlara dönüştüğü yer */}
-            {posts.map(post => (
-              <div className="col-4 my-2">
-                <div className="card shadow-lg h-100 " key={post.id} style={{ width: '18rem' }}>
-                  <div className="card-header">
-                    <h5 className="card-title">{post.title}</h5>
-                  </div>
-                  <div className="card-body">
-                    <div className="row g-0">
-                      <div className="col-4">
-                        <Image src="./img/post-img.png" className="card-img-top" alt="..." width={20} height={60} />
-                      </div>
-                      <div className="col-8">
-                        <p className="card-text">{post.body}</p>
+        {/* Yorum butonuna basıldığında çalışacak alan */}
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Body>
+            <div className='card-deck'>
+              {comments.map(comments => (
+                comments.postId === postId &&
+                <div className="col-12 my-2">
+                  <div className="card shadow-lg h-100 " key={comments.id}>
+                    <div className="card-header">
+                      <h5 className="card-title">{comments.name}</h5>
+                    </div>
+                    <div className="card-body">
+                      <div className="row g-0">
+                        <h4>Yazar:</h4><p>{comments.email}</p>
+                        <div className="row">
+                          <p className="card-text">{comments.body}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="card-footer d-grid gap-2">
-
-                    <Button variant="primary" onClick={handleShow} >Yorumları Göster </Button>
-                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </Modal.Body>
+        </Modal>
+
       </div>
-
-      {/* Yorum butonuna basıldığında çalışacak alan */}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Post no:1'in Yorumları</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-      </Modal>
-
     </div>
   )
 }
