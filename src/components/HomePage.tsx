@@ -123,13 +123,13 @@ function HomePage() {
         </div>
 
         {/* Yorum butonuna basıldığında çalışacak alan */}
-        <Modal show={show} onHide={handleClose}>
+        <Modal size="xl" show={show} onHide={handleClose}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
-            <div className='card-deck'>
+            <div className='row'>
               {comments.map(comments => (
                 comments.postId === postId &&
-                <div className="col-12 my-2">
+                <div className="card-deck col-sm-12 col-md-3 my-2">
                   <div className="card shadow-lg h-100 " key={comments.id}>
                     <div className="card-header">
                       <h5 className="card-title">{comments.name}</h5>
