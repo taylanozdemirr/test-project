@@ -3,7 +3,6 @@ import { Image } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Header from './Header'
-import {Container, Row, Col } from 'react-bootstrap';
 import '../App.css'
 
 
@@ -44,17 +43,11 @@ function HomePage() {
 
   //Post kartlarının apiden çekildiği yer
   const [posts, setPosts] = useState<Post[]>([])
-  const [mostUsedPosts, setMostUsedPosts] = useState<Post[]>([]);
-
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
       .then(data => {
-        setPosts(data); 
-        setPostCount(data.length);
-        const sortedPosts = data.sort((a: any, b: any) => b.userId - a.userId);
-        const mostUsedPosts = sortedPosts.slice(0, 1);
-        setMostUsedPosts(mostUsedPosts);
+        setPosts(data); setPostCount(data.length);
       })
       .catch(error => console.log(error))
   }, [])
@@ -67,7 +60,7 @@ function HomePage() {
       .then(response => response.json())
       .then(data => setComments(data))
       .catch(error => console.log(error))
-  },[])
+  })
 
   return (
     <div>
@@ -79,7 +72,6 @@ function HomePage() {
           </div>
 
         </div>
-        
         <div className='row'>
           <div className="col-sm-12 col-md-3 d-none d-md-block">
             <div className='row mx-5 my-5' style={{ height: "10rem" }}>
@@ -94,9 +86,7 @@ function HomePage() {
                 <div className='col-6'>
                   <Image src='./img/bow.png' width={70} height={70}></Image>
                 </div>
-                {mostUsedPosts.map(post => (
-                  <h1 className='col-6' key={post.userId}>{post.userId}</h1>
-                ))}
+                <h1 className='col-6'>67</h1>
               </div>
 
 
