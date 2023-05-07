@@ -12,7 +12,7 @@ function Inputs() {
     //Giriş bilgilerinin belirlendiği yer
     const loginButton = (e: any) => {
         e.preventDefault()
-        if (email === 'admin' && password === '123456') {
+        if (email === 'admin@admin.com' && password === '123456') {
             setLoggedIn(true)
         }else {
             setError(true)
@@ -47,7 +47,7 @@ function Inputs() {
                                             <label>
                                                 <p>Email</p>
                                                 <div className='input-group mt-2 mb-2'>
-                                                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} className='form-control' />
+                                                    <input id='email' type="email" value={email} onChange={e => setEmail(e.target.value)} className='form-control' />
                                                 </div>
                                                 {email ? '' : <p style={{color: 'red'}}>Email boş olamaz.</p>}
                                             </label>
@@ -56,9 +56,9 @@ function Inputs() {
                                             <label>
                                                 <p>Şifre</p>
                                                 <div className='input-group mt-2 mb-2'>
-                                                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} className='form-control' />
+                                                    <input id='password' type="password" value={password} onChange={e => setPassword(e.target.value)} className='form-control' />
                                                 </div>
-                                                {password ? '' : <p style={{color: 'red'}}>Şifre en az 6 karakter uzunluğunda olmalı.</p>}
+                                                {password ? '' : <p style={{color: 'red'}}>Şifre en az 6 karakter uzunluğunda olmalı.</p>}x
                                             </label>
                                         </div>
                                         <div className='mt-2 d-grid gap-2'>
