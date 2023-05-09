@@ -1,6 +1,7 @@
 import React from 'react';
 import Inputs from './components/Inputs'
 import './App.css';
+import HomePage from './components/HomePage';
 
 
 function App() {
